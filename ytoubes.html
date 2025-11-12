@@ -1,0 +1,149 @@
+<!DOCTYPE>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap"; rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: &#39;Anton&#39;, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at bottom, #FF0000, black);
+            color: white;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 30px;
+            padding: 10px 15px;
+            transition: all 0.3s ease-in-out;
+            width: 50%;
+            position: relative;
+        }
+
+        .search-container:hover, .search-container:focus-within {
+            background: rgba(0, 0, 0, 0.8);
+            width: 55%;
+        }
+
+        input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            padding-left: 40px;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .logo {
+            position: absolute;
+            left: 15px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .embed-container {
+            width: 100%;
+            height: 100vh;
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        object {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTube</h1>
+    <div class="search-container">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo">
+        </div>
+        <input type="text" id="search" placeholder="Enter URL or YouTube Video..." onkeypress="handleKeyPress(event)">
+        <button id="searchButton">Go</button>
+    </div>
+    
+    <div class="embed-container" id="embedContainer">
+        <object id="embedFrame"></object>
+    </div>
+
+    <script>
+        function embedVideo(url) {
+            const videoIdMatch = url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/);
+            if (videoIdMatch && videoIdMatch[1]) {
+                const videoId = videoIdMatch[1];
+                const embedFrame = document.getElementById("embedFrame");
+                const embedContainer = document.getElementById("embedContainer");
+                
+                embedFrame.data = `https://inv.nadeko.net/embed/${videoId}`;
+                embedContainer.style.display = "block";
+            } else {
+                alert("Please enter a valid YouTube URL.");
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                document.getElementById("searchButton").click();
+            }
+        }
+
+        document.getElementById("searchButton").addEventListener("click", function() {
+            var originalURL = document.getElementById("search").value.trim();
+            if (originalURL.includes("youtube.com/watch?v=")) {
+                embedVideo(originalURL);
+            } else {
+                alert("Please enter a valid YouTube URL.");
+            }
+        });
+    </script>
+    <button onclick="window.location.href='playtest.html'">Go back</button>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Error 404</title>
+    <style>
+        body {
+            background-color: Cyan;
+            color:DarkBlue;
+        }
+</style>
+ </head>
+ <body>
+ <h1>Wait...</h1>
+ <script>
+        function openWebsite1() {
+            const website = "https://a-cat-hub-14114633.codehs.me/home.html";
+            const iframe = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Home | Schoology</title>
+                    <link rel="icon" href="https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico">
+                </head>
+                <body style="margin: 0; padding: 0; overflow: hidden;">
+                    <embed src="${website}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
+                </body>
+                </html>
+            `;
+
+            const win = window.open("about:blank", "_blank");
+            if (win) {
+                win.document.open();
+                win.document.write(iframe);
+                win.document.close();
+            } else {
+                alert("Popup blocked! Please allow popups for this website.");
+            }
+        }
+    </script>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            openWebsite1();
+        });
+    </script>
+    </body>
+</html>

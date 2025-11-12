@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Error 404</title>
+  <script>
+    function randomRedirect(event) {
+      // List of URLs to choose from
+      const pages = [
+        "er1load.html",
+        "redirect.html"
+      ];
+
+      // Pick a random index
+      const randomIndex = Math.floor(Math.random() * pages.length);
+
+      // Redirect to the selected page
+      window.location.href = pages[randomIndex];
+
+      // Prevent the default link behavior
+      event.preventDefault();
+    }
+  </script>
+    </head>
+    <body>
+        <h2>Error 404</h2>
+        <hr>
+        <p>The platform server is down right now so we could not locate a platform for you. Try again later or go home</p>
+        <br>
+        <hr>
+        <br>
+        <a href="home.html">
+            Go Home
+        </a>
+        <br>
+          <a href="#" onclick="return randomRedirect();">Reload</a>
+    </body>
+</html>

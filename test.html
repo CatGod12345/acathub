@@ -1,0 +1,376 @@
+<html lang="en">
+<head>
+  <base target="_blank">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=block">
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      cursor: pointer;
+      font-size: 36px;
+      position: fixed;  
+      top: 10px;        
+      right: 10px;      
+      z-index: 1000;    
+    }
+
+    body {
+      background-color: #003366; 
+      color: #fcba04; 
+      font-family: Arial, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    h3 {
+      color: #fcba04; 
+    }
+
+    .c-button {
+      font-family: inherit;
+      appearance: none;
+      border: 0;
+      border-radius: 10px;
+      background: #a50104; 
+      color: #fcba04; 
+      font-weight: bold;
+      padding: 6px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      height: 40px;
+      margin: 10px 0;
+      text-align: center;
+      transition: box-shadow 0.3s ease, background-color 0.3s, color 0.3s;
+    }
+
+    .c-button:hover {
+      background: #590004; 
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+    }
+
+    .c-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px #cbd6ee;
+    }
+
+    #game-selector {
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      width: 300px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #003366; 
+      margin: 15% auto;
+      padding: 20px;
+      width: 80%;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #fcba04; 
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .color-dialog {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 16px;
+      color: #fcba04;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      padding: 10px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .slider {
+      width: 100%;
+    }
+
+    #game-buttons {
+      margin-bottom: 20px;
+    }
+
+    #saved-links {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <button class="material-symbols-outlined" id="myBtn">settings</button>
+  
+  <div id="myModal" class="modal">
+      <div class="modal-content">
+      <span class="close">X</span>
+      <h3>Settings</h3>
+
+      <!-- Button Color Dialog -->
+      <div class="color-dialog">
+        <label for="button-color">Button Color:</label>
+        <input type="color" id="button-color" value="#a50104">
+        <label for="button-hover-color">Button Hover Color:</label>
+        <input type="color" id="button-hover-color" value="#590004">
+      </div>
+
+      <!-- Background Color Dialog -->
+      <div class="color-dialog">
+        <label for="background-color">Background Color:</label>
+        <input type="color" id="background-color" value="#003366">
+      </div>
+
+      <!-- Text Color Dialog -->
+      <div class="color-dialog">
+        <label for="text-color">Text Color:</label>
+        <input type="color" id="text-color" value="#fcba04">
+      </div>
+
+      <!-- Save Settings Button -->
+      <button class="c-button" onclick="saveSettings()">Save Settings</button>
+
+      <hr>
+
+      <label for="add-url">Bookmark a link for next time!</label>
+      <input type="text" id="add-url" placeholder="Enter custom link to save">
+      <button class="c-button" onclick="saveCustomLink()">Save Custom Link</button>
+    </div>
+  </div>
+
+  <div id="game-selector">
+    <div id="game-buttons"></div>
+  </div>
+
+
+  <script>
+    window.onload = function () {
+      openGameSelector();
+      loadSavedLinks();
+      loadSettings();
+    };
+
+    function toggleTheme() {
+      var body = document.body;
+      var themeToggleButton = document.querySelector('.theme-toggle');
+      if (body.style.backgroundColor === '#003366') {
+        body.style.backgroundColor = 'white';
+        body.style.color = 'black';
+        themeToggleButton.innerText = 'Switch to Dark Mode';
+      } else {
+        body.style.backgroundColor = '#003366';
+        body.style.color = '#fcba04';
+        themeToggleButton.innerText = 'Switch to Light Mode';
+      }
+    }
+
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("myBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function () {
+      modal.style.display = "block";
+    };
+
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    // Save settings to local storage
+    function saveSettings() {
+      const buttonColor = document.getElementById("button-color").value;
+      const buttonHoverColor = document.getElementById("button-hover-color").value;
+      const backgroundColor = document.getElementById("background-color").value;
+      const textColor = document.getElementById("text-color").value;
+
+      const settings = {
+        buttonColor: buttonColor,
+        buttonHoverColor: buttonHoverColor,
+        backgroundColor: backgroundColor,
+        textColor: textColor
+      };
+
+      localStorage.setItem("themeSettings", JSON.stringify(settings));
+      applySettings(settings);
+    }
+
+    // Apply settings from localStorage
+    function loadSettings() {
+      const savedSettings = JSON.parse(localStorage.getItem("themeSettings"));
+      if (savedSettings) {
+        applySettings(savedSettings);
+      }
+    }
+
+    function applySettings(settings) {
+      document.querySelectorAll('.c-button').forEach(button => {
+        button.style.backgroundColor = settings.buttonColor;
+        button.style.color = settings.textColor;
+        button.onmouseover = function() {
+          button.style.backgroundColor = settings.buttonHoverColor;
+        };
+        button.onmouseout = function() {
+          button.style.backgroundColor = settings.buttonColor;
+        };
+      });
+      document.body.style.backgroundColor = settings.backgroundColor;
+      document.body.style.color = settings.textColor;
+    }
+
+    function openGameSelector() {
+      const categorizedGames = {
+        "Platformer": {
+        "Geometry Dash Lite": "geometry.html",
+        "Fire Boy and Water Girl": "waterfire.html",
+        "Motox3m": "moto.html",
+        "Slope": "slope.html",
+        "Run": "run.html"
+        },
+        "Puzzle": {
+        "Factory Balls": "factory.html",
+        "Cell Machine": "cell.html",
+        "Achievement Unlocked": "achievement.html",
+        "A Dark Room": "darkness.html"
+        },
+        "Arcade/Action": {
+        "Stackball.io": "stacking.html",
+        "Angry Birds": "angry.html",
+        "Drive Mad": "mad.html"
+        },
+        "Games": {
+          "Slope": "slither.html",
+          "Retrobowl": "https://d1tm91r4ytbt54.cloudfront.net/b93894a7-b29b-4edc-8866-c733ff7d695b/1671689486925/retrobowl/index.html?embed=1&amp;output=1#main.py",
+          "Snow Rider 3D": "https://www.hoodamath.com/mobile/games/snow-rider-3d/game.html?nocheckorient=1",
+          "Resent Client": "https://resent4-0.vercel.app/",
+          "Color Tunnel": "https://tunnel-rush.io/game/tunnel-rush/",
+          "Ovo": "https://ovo-game.github.io/o/ovo",
+          "Stickman Hook": "https://potashsoluble.github.io/unbl0ck/games/stickmanhook/index.html",
+          "1v1lol": "https://education76.github.io/g77/1v1-lol-3/", // Added new game
+          "GBA emulator": "https://theclashman2.github.io/GBA-Emulator/",
+          "Smash Karts": "https://webgltest-17af1.firebaseapp.com/",
+          "Cookie Clicker": "https://potashsoluble.github.io/unbl0ck/cookie/index.html",
+          "Paper.io 2": "https://ovo-game.github.io/o9/paper-io-2",
+          "Moto X3M": "https://sudoku-online.github.io/a8/moto-x3m",
+          "Burrito Bison": "https://planetalpha.pages.dev/burrito_bison",
+          "BitLife": "https://xlegends.github.io/bitlife/",  // BitLife link
+          "tombmask": "https://math711.github.io/g26/class-438/",  
+          "Subway Surfers": "https://dddavit.github.io/subway",  
+          "coreball": "https://lffdashuage.github.io/leejt/game.html", 
+        },
+        "Proxies": {
+        },
+        "Tools": {
+          "Youtube Links": "https://safeshare.tv"
+        },
+        "Other": {
+          "Qbreader": "https://qbreader.org",
+          "Soundboard": "https://windowslover1234.github.io/games/30dw/",
+          "random wheel": "https://wheelofnames.com"
+        }
+      };
+
+      var buttonsContainer = document.getElementById("game-buttons");
+      buttonsContainer.innerHTML = "";
+      for (var category in categorizedGames) {
+        var categoryTitle = document.createElement("h3");
+        categoryTitle.innerText = category;
+        buttonsContainer.appendChild(categoryTitle);
+        var categoryContainer = document.createElement("div");
+        categoryContainer.style.display = "grid";
+        categoryContainer.style.gridTemplateColumns = "repeat(4, 1fr)";
+        categoryContainer.style.gap = "10px";
+
+        var games = categorizedGames[category];
+        for (var game in games) {
+          var button = document.createElement("button");
+          button.className = "c-button";
+          button.innerText = game;
+          button.onclick = function (gameName, url) {
+            return function () {
+              openGameInNewTab(url, gameName);
+            };
+          }(game, games[game]);
+          categoryContainer.appendChild(button);
+        }
+        buttonsContainer.appendChild(categoryContainer);
+        buttonsContainer.appendChild(document.createElement("hr"));
+      }
+    }
+
+    function openGameInNewTab(url, gameName) {
+      if (!url) {
+        alert("Invalid URL for " + gameName);
+        return;
+      }
+      var newTab = window.open('about:blank', '_blank');
+      if (!newTab) {
+        alert("Please allow popups to open the link in a new tab.");
+        return;
+      }
+      newTab.document.write(`<!DOCTYPE html><html><head><title>Schoology</title><link rel="icon" type="image/x-icon" href="https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico"></head><body><embed src="${url}" type="text/html" style="width:100%; height:100%; position:absolute; top:0px; left:0px; right:0px; bottom:0px;"></embed></body></html>`);
+      newTab.onbeforeunload = function () {
+        return "Are you sure you want to leave this site?";
+      };
+    }
+
+    function openCustomLink() {
+      var customUrl = document.getElementById("custom-url").value;
+      if (customUrl) {
+        openGameInNewTab(customUrl, "Custom Link");
+      } else {
+        alert("Please enter a valid URL.");
+      }
+    }
+
+    function saveCustomLink() {
+      var addUrl = document.getElementById("add-url").value;
+      if (addUrl) {
+        var savedLinks = JSON.parse(localStorage.getItem("savedLinks")) || [];
+        savedLinks.push(addUrl);
+        localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
+        document.getElementById("add-url").value = "";
+        loadSavedLinks();
+      } else {
+        alert("Please enter a valid URL to save.");
+      }
+    }
+  </script>
+  <a href="adminpanel.html">go away</a>
+</body>
+</html>

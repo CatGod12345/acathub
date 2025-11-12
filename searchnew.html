@@ -1,0 +1,239 @@
+<html lang="en"><head><base target="_blank">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Modern Design with Search and Settings</title>
+    <style>
+        body {
+            background-color: transparent;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #a67cfa; /* Purple accent color */
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+       input[type="text"] {
+    padding: 12px;
+    border: 2px solid #a67cfa;
+    border-radius: 5px;
+    width: 300px;
+    background-color: #1e1e1e;
+    color: #e0e0e0; /* Light grey for better contrast */
+    transition: all 0.3s;
+}
+
+
+        input[type="text"]::placeholder {
+            color: #aaaaaa;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 5px #a67cfa;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #6200ea;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #3700b3;
+            box-shadow: 0 0 20px #ffffff, 0 0 30px #ffffff;
+            transform: translateY(-3px);
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 5px #6200ea;
+        }
+
+        #settingsMenu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            width: 300px;
+            color: #ffffff;
+        }
+
+        #settingsMenu h3 {
+            color: #a67cfa;
+            border-bottom: 1px solid #555;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        #settingsButton {
+            background-color: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5em;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #settingsButton:hover {
+            color: #a67cfa;
+        }
+
+        .settingsInput {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #a67cfa;
+            border-radius: 5px;
+            background-color: #2f2f2f;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        #resetButton {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #resetButton:hover {
+            background-color: #c0392b;
+        }
+
+        #closeMenu {
+            float: right;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        #closeMenu:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Search</h1>
+    <div class="search-container">
+        <input type="text" id="urlInput" placeholder="Enter URL or text to search">
+        <button id="openNewTabButton">Open</button>
+        <button id="settingsButton">⚙️</button>
+    </div>
+
+    <div id="settingsMenu">
+        <span id="closeMenu">❌</span>
+        <h3>Settings</h3>
+        <label>Tab Title:</label>
+        <input type="text" id="titleInput" class="settingsInput" placeholder="Inbox (1)">
+        
+        <label>Favicon URL:</label>
+        <input type="text" id="faviconInput" class="settingsInput" placeholder="Enter Favicon URL">
+        
+        <button id="resetButton">Reset</button>
+    </div>
+
+    <script>
+        const baseGoogleScriptUrl = "https://script.google.com/macros/s/AKfycbyIW9_tSxZR1Ve6mLAeTQ6zceeVLB0ExTmuyDN5Q6XiaOG8uuDCRYeavYraDzSh6pkg/exec?url=";
+
+        function loadWebsiteInNewTab(url) {
+            const title = document.getElementById("titleInput").value || 'Inbox (1)';
+            const favicon = document.getElementById("faviconInput").value || 'https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-email-mail-application-vector-png-image_9183278.png';
+            let fullUrl;
+
+            // Check if the input is a valid URL or text
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                fullUrl = baseGoogleScriptUrl + encodeURIComponent(url);
+            } else {
+                // If it's just text, search using Google
+                fullUrl = "https://google.com/search?igu=1&q=" + encodeURIComponent(url);
+            }
+
+            const newTab = window.open();
+            newTab.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${title}</title>
+                    <link rel="icon" type="image/png" href="${favicon}">
+                    <style>
+                        body {
+                            margin: 0;
+                            overflow: hidden;
+                        }
+                        embed {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <embed src="${fullUrl}" type="text/html">
+                </body>
+                </html>
+            `);
+            newTab.document.close();
+        }
+
+        document.getElementById("openNewTabButton").addEventListener("click", function() {
+            const originalURL = document.getElementById("urlInput").value.trim();
+            loadWebsiteInNewTab(originalURL || "https://www.google.com");
+        });
+
+        document.getElementById("urlInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("openNewTabButton").click();
+            }
+        });
+
+        document.getElementById("settingsButton").addEventListener("click", function() {
+            document.getElementById("settingsMenu").style.display = "block";
+        });
+
+        document.getElementById("closeMenu").addEventListener("click", function() {
+            document.getElementById("settingsMenu").style.display = "none";
+        });
+
+        document.getElementById("resetButton").addEventListener("click", function() {
+            document.getElementById("titleInput").value = 'Inbox (1)';
+            document.getElementById("faviconInput").value = '';
+        });
+    </script>
+    <button onclick="window.location.href='playtest.html'">Go back</button>
+
+
+
+</body></html>

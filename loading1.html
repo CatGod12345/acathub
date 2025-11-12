@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loading Screen</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #00ffcc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .loader {
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loadingMessage">🔍 Locating free server...</div>
+
+  <script>
+    const messages = [
+      "🔍 Locating free server...",
+      "💡 Warming up server engines...",
+      "🌐 Trying to find the best platform for you...",
+      "🛰️ Contacting available server nodes...",
+      "⚙️ We have 10,000 servers, and you're getting a good one!",
+      "📦 Finalizing server allocation...",
+      "✅ Platform ready. Connecting..."
+    ];
+
+    const delayPerMessage = 1000; // 3 seconds per message
+    const loadingMessage = document.getElementById("loadingMessage");
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+      index++;
+      if (index >= messages.length) {
+        clearInterval(interval);
+        loadingMessage.textContent = "🚀 Launching...";
+        // Redirect after 1 second to allow the message to show
+        setTimeout(() => {
+          window.location.href = "RandomPage.html"; // Change this to your target page
+        }, 1000);
+      } else {
+        loadingMessage.textContent = messages[index];
+      }
+    }, delayPerMessage);
+  </script>
+</body>
+</html>

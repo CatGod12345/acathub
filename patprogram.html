@@ -1,0 +1,186 @@
+<html lang="en">
+
+<head> 
+    <meta charset="utf-8" /> 
+    <meta name="viewport" content="width=device-width,initial-scale=1" /> 
+    <title>Ranks Grid</title> 
+    <style> 
+:root { 
+    --bg: #0f1724; 
+    --card: linear-gradient(180deg, #0b1220 0%, #08101a 100%); 
+    --muted: #9aa6b2; 
+    --accent: #6ee7b7; 
+    --gap: 18px; 
+    --radius: 14px; 
+    --shadow: 0 6px 18px rgba(2, 8, 23, 0.6); 
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
+    }
+html, body {
+    height: 100%; 
+    margin: 0; 
+    background: var(--bg); 
+    color: #e6eef6; 
+    }
+.wrap { 
+    max-width: 1100px; 
+    margin: 48px auto; 
+    padding: 28px; 
+    }
+.grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+    gap: var(--gap); 
+    }
+.card {
+    background: var(--card); 
+    border-radius: var(--radius); 
+    padding: 16px; 
+    box-shadow: var(--shadow); 
+    border: 1px solid rgba(255, 255, 255, 0.03); 
+    }
+.name {
+    fnt-size: 16px; 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    }
+.meta { 
+    font-size: 13px; 
+    color: var(--muted); 
+    }
+.tag { 
+    display: inline-block; 
+    padding: 2px 6px; 
+    margin: 2px; 
+    border-radius: 6px; 
+    font-size: 12px; 
+    text-decoration: none; 
+    }
+.tag-gold { 
+    background-color: gold; 
+    color: black; 
+    } 
+.tag-silver { 
+    background-color: silver; 
+    color: black;
+    } 
+.tag-bronze { 
+    background-color: #cd7f32; 
+    color: black; 
+    } 
+.tag-diamond { 
+    background-color: #b9f2ff; 
+    color: black; 
+    } 
+.tag-rainbow { 
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); 
+    color: white; 
+    } 
+.tag-futuristic { 
+    background: linear-gradient(135deg, #00f0ff, #8a2be2); 
+    color: white; 
+    } 
+.tag-purple {
+    background: purple;
+    color: white;
+}
+    </style> 
+</head>
+
+<body> 
+    <div class="wrap"> 
+        <h1>Patreons of Website</h1> 
+        <div class="grid"> 
+            <div class="card"> 
+                <div class="name">CatGod</div> 
+                <div class="meta">
+                    <span class="tag tag-diamond">Owner</span>
+                    <span class="tag tag-diamond">Playtester</span>
+                    <span class="tag tag-gold">CO-OP</span>
+                    <br>
+                    <span class="tag tag-gold">Donor</span>
+                    <span class="tag tag-silver">Patreon</span>
+                    <span class="tag tag-bronze">Link Finder</span>
+                    <br>
+                    <span class="tag tag-bronze">Coder</span>
+                    <span class="tag tag-purple">Discord</span>
+                    <span class="tag tag-futuristic">Suggester</span>
+                    <br>
+                    <span class="tag tag-futuristic">Surveyor</span>
+                    <br>Joined Patreon Program September 21, 2025
+                </div> 
+            </div> 
+            <div class="card"> 
+                <div class="name">rufflechips</div> 
+                <div class="meta">
+                    <span class="tag tag-diamond">Playtester</span>
+                    <span class="tag tag-silver">Patreon</span>
+                    <span class="tag tag-futuristic">Surveyor</span>
+                    <br>
+                    <span class="tag tag-futuristic">Suggester</span>
+                    <br>Joined Patreon Program September 22, 2025
+                </div> 
+            </div> 
+            <div class="card"> 
+                <div class="name">the bone eater</div> 
+                <div class="meta">
+                    <span class="tag tag-diamond">Playtester</span>
+                    <span class="tag tag-silver">Patreon</span>
+                    <span class="tag tag-purple">Discord</span>
+                    <br>
+                    <span class="tag tag-futuristic">Suggester</span>
+                    <br>Joined Patreon Program September 22, 2025
+                </div> 
+            </div> 
+            <div class="card"> 
+                <div class="name">SRG Oodvik</div> 
+                <div class="meta">
+                    <span class="tag tag-diamond">Playtester</span>
+                    <span class="tag tag-silver">Patreon</span>
+                    <br>Joined Patreon Program September 22, 2025
+                </div> 
+            </div> 
+        </div>
+        <h1>Bots</h1>
+        <div class="grid">
+            <div class="card"> 
+                <div class="name"><a href="https://untitledsite2point02.codehs.me/" target="_blank">Untitled</a></div> 
+                <div class="meta">
+                    <span class="tag tag-futuristic">BOT</span>
+                    <br>Became a Bot September 29, 2025
+                </div>
+            </div> 
+            <!--
+            <div class="card"> 
+                <div class="name">Cool CORP</div> 
+                <div class="meta">
+                    <span class="tag tag-silver">CO-OP</span>
+                    <span class="tag tag-bronze">Cherry</span>
+                    <br>Joined Sep 2025
+                </div> 
+            </div> 
+            <div class="card"> 
+                <div class="name">Tyler</div> 
+                <div class="meta">
+                    <span class="tag tag-silver">CO-OP</span>
+                    <span class="tag tag-bronze">Prototype</span>
+                    <br>Joined Sep 2025
+                </div> 
+            </div> 
+            <div class="card"> 
+                <div class="name">Nathan</div> 
+                <div class="meta">
+                    <span class="tag tag-silver">CO-OP</span>
+                    <br>Joined Sep 2025
+                </div> 
+            </div> 
+            -->
+        </div> 
+    </div> 
+    <br>
+    <br>
+    <a href="taglist.html">Tag List and how to Aquire</a>
+    <br>
+    <a href="redirect.html">Go Back</a>
+     <script src="https://cdn.jotfor.ms/s/static/latest/static/feedback2.js"></script> <script> var componentID = new JotformFeedback({ type: false, width: 700, height: 500, fontColor: "#FFFFFF", background: "#F59202", isCardForm: false, formId: "252643863203051" , buttonText: "Join Patreon Program!", buttonSide: "right", buttonAlign: "center", base: "https://form.jotform.com/", }).componentID; </script> <script src='https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js'></script> <script>window.jotformEmbedHandler("iframe[id='" + componentID + "_iframe']", "https://form.jotform.com/")</script>
+</body>
+</html>

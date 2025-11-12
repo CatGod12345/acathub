@@ -1,0 +1,13 @@
+<html lang="en"> <head> <style> body { background-color: #003366; color: #fcba04; font-family: Arial, sans-serif; transition: background-color 0.3s, color 0.3s; }
+
+.c-button { font-family: inherit; appearance: none; border: 0; border-radius: 10px; background: #a50104; color: #fcba04; font-weight: bold; padding: 6px 20px; font-size: 14px; cursor: pointer; height: 40px; margin: 10px 0; text-align: center; transition: background-color 0.3s, color 0.3s; }
+
+.c-button:hover { background: #590004; }
+
+</style> </head> <body> <button class="c-button" id="colorToggle">Change Colors</button>
+    <a href="adminpanel.html">Back</a>
+<script> const button = document.getElementById('colorToggle'); let isOriginal = true;
+
+button.addEventListener('click', () => { if (isOriginal) { document.body.style.backgroundColor = '#fcba04'; document.body.style.color = '#003366'; button.style.backgroundColor = '#fcba04'; button.style.color = '#003366'; } else { document.body.style.backgroundColor = '#003366'; document.body.style.color = '#fcba04'; button.style.backgroundColor = '#a50104'; button.style.color = '#fcba04'; } isOriginal = !isOriginal; });
+
+// Initialize button colors button.style.backgroundColor = '#a50104'; button.style.color = '#fcba04'; </script> </body> </html>

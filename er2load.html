@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loading with Messages and Redirect</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0f0f0f;
+      color: #00ffcc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-size: 1.5rem;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    .loader {
+      animation: pulse 1.2s infinite;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader">🔍 Locating free server...</div>
+  <div class="status"></div>
+
+  <script>
+    const loader = document.querySelector('.loader');
+    const status = document.querySelector('.status');
+
+    // Messages and timings (ms)
+    const messages = [
+      { text: '🔍 Locating free server...', duration: 1000 },
+      { text: 'Trying again...', duration: 1000 },
+      { text: 'Failed to load...', duration: 1000 }
+    ];
+
+    let currentIndex = 0;
+
+    function showNextMessage() {
+      if (currentIndex < messages.length) {
+        loader.textContent = messages[currentIndex].text;
+        currentIndex++;
+        setTimeout(showNextMessage, messages[currentIndex - 1].duration);
+      } else {
+        // Redirect after final message
+        window.location.href = 'error4042.html'; // Change this URL as needed
+      }
+    }
+
+    // Start cycle
+    showNextMessage();
+  </script>
+</body>
+</html>

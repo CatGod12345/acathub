@@ -1,0 +1,137 @@
+<html lang="en"><head><base target="_blank">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom URL Opener with Ad Blocker</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: transparent;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        #urlInput:focus, #titleInput:focus, #faviconInput:focus {
+            outline: none;
+            box-shadow: inset 0 4px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        #openNewTabButton:hover, #resetButton:hover {
+            box-shadow: 0 0 10px #3498db, 0 0 20px #3498db;
+        }
+
+        #openNewTabButton:active, #resetButton:active {
+            box-shadow: 0 0 15px #5dade2;
+        }
+
+        #settingsMenu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            width: 300px;
+            text-align: left;
+        }
+
+        #settingsButton:hover {
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div style="text-align: center; margin-top: 20px;"> <!-- Changed margin-top from 60px to 20px -->
+    <input type="text" id="urlInput" style="padding: 8px 15px; border-radius: 8px; border: none; background-color: #2f2f2f; color: white; width: 90%; box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3);" placeholder="Enter a URL or search term">
+    <button id="openNewTabButton" style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 -2px 0 rgba(0, 0, 0, 0.2);">Open</button>
+    <button id="settingsButton" style="font-size: 1.5em; background-color: transparent; border: none; border-radius: 50%; cursor: pointer; color: white; padding: 8px; margin-left: 8px; transition: all 0.3s ease; transform: translateY(4px); box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);">⚙️</button>
+</div>
+
+<div id="settingsMenu">
+    <span id="closeMenu" style="float: right; cursor: pointer; color: #aaa;">❌</span>
+    <h3 style="color: #fff; border-bottom: 1px solid #555; padding-bottom: 10px; margin-bottom: 15px;">Settings</h3>
+    <label style="color: #bbb; margin-bottom: 5px; display: block;">Tab Title:</label>
+    <input type="text" id="titleInput" style="width: 100%; padding: 8px; border-radius: 8px; border: none; background-color: #333; color: white; box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3); margin-bottom: 10px;">
+
+    <label style="color: #bbb; margin-bottom: 5px; display: block;">Favicon URL:</label>
+    <input type="text" id="faviconInput" style="width: 100%; padding: 8px; border-radius: 8px; border: none; background-color: #333; color: white; box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3); margin-bottom: 15px;">
+    
+    <button id="resetButton" style="background-color: #e74c3c; color: white; padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); transition: all 0.3s ease;">Reset</button>
+</div>
+
+<script>
+    function loadWebsiteInNewTab(url) {
+        const title = document.getElementById("titleInput").value || 'Inbox (1)';
+        const favicon = document.getElementById("faviconInput").value || 'https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-email-mail-application-vector-png-image_9183278.png';
+        
+        var newTab = window.open();
+        newTab.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>${title}</title>
+                <link rel="icon" type="image/png" href="${favicon}" sizes="16x16">
+                <style>
+                    body {
+                        margin: 0;
+                        overflow: hidden;
+                    }
+                    object {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        border: none;
+                    }
+                </style>
+            </head>
+            <body>
+                <object data="${url}"></object>
+                <script>
+                    // Additional functionality can be added here if needed
+                <\/script>
+            </body>
+            </html>
+        `);
+        newTab.document.close();
+    }
+
+    document.getElementById("openNewTabButton").addEventListener("click", function() {
+        var originalURL = document.getElementById("urlInput").value.trim();
+        if (!originalURL.startsWith("https://")) {
+            originalURL = "https://www.google.com/search?igu=1&q=" + encodeURIComponent(originalURL);
+        }
+        loadWebsiteInNewTab(originalURL);
+    });
+
+    document.getElementById("urlInput").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            document.getElementById("openNewTabButton").click();
+        }
+    });
+
+    document.getElementById("settingsButton").addEventListener("click", function() {
+        document.getElementById("settingsMenu").style.display = "block";
+    });
+
+    document.getElementById("closeMenu").addEventListener("click", function() {
+        document.getElementById("settingsMenu").style.display = "none";
+    });
+
+    document.getElementById("resetButton").addEventListener("click", function() {
+        document.getElementById("titleInput").value = 'Inbox (1)';
+        document.getElementById("faviconInput").value = 'https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-email-mail-application-vector-png-image_9183278.png';
+    });
+</script>
+    <button onclick="window.location.href='playtest.html'">Go back</button>
+
+
+
+</body></html>
